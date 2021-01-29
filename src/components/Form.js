@@ -66,10 +66,11 @@ export default function Form(props) {
 
                 <h4> Next Up: Pick a Size! </h4>
 
-                <label className="label"> Choose Size
+                <label> Choose Size
                     <select onChange={onChange}
                     value={values.size}
                     name="size"
+                    className="size"
                     >
                         <option value=""> -----CHOOSE SIZE----- </option>
                         <option value="small"> Small (6" Diameter)</option>
