@@ -9,9 +9,9 @@ import * as yup from "yup"
 
 //TO DO:
 // Build Axios Post request into "postPizzaOrder()"
-// Set up Cypress tests for adding text to box, for adding multiple toppings, and for submission. Cypress already installed.
-// Commit changes to Sprint near end, and upload to Codegrade.
 // Submit.
+
+const apiLink = "https://reqres.in/api/users";
 
 const initialFormValues = {
   name: "",
@@ -30,6 +30,8 @@ const initialErrorValues = {
   size: ""
 };
 
+const initialOrders = []
+
 const initialDisabled = true
 
 const HeaderWrapper = styled.header`
@@ -43,6 +45,7 @@ const App = () => {
   const [ formValues, setFormValues ] = useState(initialFormValues)
   const [ errorValues, setErrorValues ] = useState(initialErrorValues)
   const [ disabled, setDisabled ] = useState(initialDisabled)
+  const [pizzaOrder, setPizzaOrder] = useState(initialOrders)
 
   const inputChange = (name, value) => {
     yup
@@ -68,7 +71,16 @@ const App = () => {
   }
 
   const postPizzaOrder = (newPizza) => {
-    console.log(newPizza)
+    axios
+    .post(apiLink, newPizza)
+    .then((res) => {
+      console.log(res.data)
+      setPizzaOrder([res.data, ...pizzaOrder])
+
+    }).catch((err) => {
+      console.log(err)
+    })
+
     setFormValues(initialFormValues)
     //should post newPizza to server with axios, and returns a database record.
   }
@@ -97,6 +109,13 @@ const App = () => {
         <Route exact path="/">
           <HeaderWrapper>
             <Header />
+            <div>
+              {pizzaOrder.map((order) => {
+                return <p key="order.specialInstructions"> 
+                Pizza ordered by {order.name}, confirmation sent to {order.email}. Special instructions: {order.specialInstructions}
+                </p>
+              })}
+            </div>
           </HeaderWrapper>
         </Route>
         <Route exact path="/pizza">
