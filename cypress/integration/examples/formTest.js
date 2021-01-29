@@ -47,5 +47,8 @@ it("finish submitting form", () => {
     submitButton()
     .should("not.be.disabled")
     .click()
+
+    nameInput()
+    .should("have.value", "")
     
 })
